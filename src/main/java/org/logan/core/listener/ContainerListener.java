@@ -1,5 +1,12 @@
 package org.logan.core.listener;
 
-public interface ContainerListener {
+import org.logan.core.event.Event;
+
+public class ContainerListener implements EventListener {
+
+	@Override
+	public void fireEvent(Event event) {
+		
+	}
 
 }
