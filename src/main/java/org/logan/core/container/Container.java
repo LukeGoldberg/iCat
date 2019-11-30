@@ -1,12 +1,14 @@
 package org.logan.core.container;
 
-import java.util.Set;
+import java.util.List;
 
 import org.logan.core.Pipeline;
-import org.logan.core.event.ContainerEvent;
-import org.logan.core.listener.ContainerListener;
+import org.logan.core.lifecycle.Lifecycle;
+import org.logan.protocol.ResponseInfo;
 
-public interface Container {
+import io.netty.handler.codec.http.HttpRequest;
+
+public interface Container extends Lifecycle {
     
 	void addChild(Container child);
 	
@@ -16,14 +18,18 @@ public interface Container {
 	
 	Container getParent();
 	
-	Set<Container> getChildren();
+	List<Container> getChildren();
 	
 	String getName();
+	
+	void setName(String name);
+	
+	void parseRequest(String uri, HttpRequest request, ResponseInfo response);
 
-	void addContainerListener(ContainerListener listener);
-	
-	void removeContainerListener(ContainerListener listener);
-	
-	void fireContainerEvent(ContainerEvent event);
+//	void addContainerListener(ContainerListener listener);
+//	
+//	void removeContainerListener(ContainerListener listener);
+//	
+//	void fireContainerEvent(ContainerEvent event);
 	
 }

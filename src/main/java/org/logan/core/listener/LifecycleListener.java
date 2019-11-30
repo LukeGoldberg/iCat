@@ -1,13 +1,7 @@
 package org.logan.core.listener;
 
-import org.logan.core.event.Event;
+import org.logan.core.event.LifecycleEvent;
 
-public class LifecycleListener implements EventListener {
-
-	@Override
-	public void fireEvent(Event event) {
-		// TODO Auto-generated method stub
-		
-	}
-
+public interface LifecycleListener {
+	void fireEvent(LifecycleEvent event);
 }

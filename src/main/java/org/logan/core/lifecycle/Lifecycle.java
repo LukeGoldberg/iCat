@@ -12,6 +12,8 @@ public interface Lifecycle {
 	
 	void start();
 	
+	void pause();
+	
 	void stop();
 	
 	void destroy();

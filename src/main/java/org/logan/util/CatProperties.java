@@ -10,14 +10,10 @@ public class CatProperties {
 	
 	private static final Logger logger = Logger.getLogger("CatProperties");
 	
-	private static final String CAT_HOME = "D:/gitFolder/iCat/src/main/java/org/logan/";
+	private static final String CAT_HOME = "D:/gitFolder/iCat/src/main/java/org/logan/config/";
     private static final String PROPERTY_FILE_NAME = "cat.properties";
 	
 	private static Properties properties = null;
-	
-	static {
-		loadProperties();
-	}
 	
 	private static void loadProperties() {
 		File propertyFile = new File(CAT_HOME + PROPERTY_FILE_NAME);
@@ -30,6 +26,9 @@ public class CatProperties {
 	}
 	
 	public static String getProperty(String name) {
+		if (properties == null) {
+			loadProperties();
+		}
 		return properties.getProperty(name);
 	}
 	
