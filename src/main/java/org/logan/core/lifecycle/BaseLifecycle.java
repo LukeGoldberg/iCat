@@ -7,24 +7,18 @@ import org.logan.core.listener.LifecycleListener;
 
 public abstract class BaseLifecycle implements Lifecycle {
 
-	/*
-	 * 同样觉得接口 Lifecycle 不需要存在。
-	 */
-	
 	private final CopyOnWriteArrayList<LifecycleListener> lifecycleListeners = new CopyOnWriteArrayList<>();
 	
 	private volatile LifecycleState state = LifecycleState.NEW;
 	
 	@Override
 	public void addLifecycleListener(LifecycleListener listener) {
-		// TODO Auto-generated method stub
-		
+		lifecycleListeners.add(listener);
 	}
 
 	@Override
 	public void removeLifecycleListener(LifecycleListener listener) {
-		// TODO Auto-generated method stub
-		
+		lifecycleListeners.remove(listener);
 	}
 
 	@Override
@@ -43,20 +37,17 @@ public abstract class BaseLifecycle implements Lifecycle {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
 		stopInternal();
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public LifecycleState getState() {
-		
-		return null;
+		return state;
 	}
 	
 	@Override

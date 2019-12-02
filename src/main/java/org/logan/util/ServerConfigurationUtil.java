@@ -32,35 +32,31 @@ public final class ServerConfigurationUtil {
 	
 	public static Server configServer() {
 		
-		// Wrapper
+		// Wrapper1
 		WrapperBuilder wrapperBuilder = new WrapperBuilder();
 		Wrapper wrapper1 = wrapperBuilder.build();
-		wrapper1.setName("wrapper1");
-		wrapper1.setServletName("servlet name");
+		wrapper1.setName("welcome");
+		wrapper1.setServletContent("<html><h1>welcome</h1></html>");
+		
+		// Wrapper2
+		wrapperBuilder = new WrapperBuilder();
+		Wrapper wrapper2 = wrapperBuilder.build();
+		wrapper2.setName("index");
+		wrapper2.setServletContent("<html>index</html>");
 		
 		// Context
 		ContextBuilder contextBuilder = new ContextBuilder();
 		Context context1 = contextBuilder.build();
-		context1.setName("context1");
+		context1.setName("app");
 		
 		// Host
 		HostBuilder hostBuilder = new HostBuilder();
-		Host host1 = hostBuilder.workDir("")
-				.appBase("")
-				.name("host1")
+		Host host1 = hostBuilder.name("logan")
 				.addLifecycleListener(new HostConfigListener())
 				.build();
 		
-		// Engine
-//		EngineBuilder engineBuilder = new EngineBuilder();
-//		Engine engine1 = engineBuilder.hostAddress("localhost")
-//				.addHost(host1)
-//				.build();
 		Engine engine1 = new Engine();
 		engine1.setName("engine1");
-		engine1.setHostAddress("localhost");
-		engine1.addChild(host1);
-		
 		
 		// Service
 		ServiceBuilder serviceBuilder = new ServiceBuilder();
@@ -81,6 +77,7 @@ public final class ServerConfigurationUtil {
 		engine1.addChild(host1);
 		host1.addChild(context1);
 		context1.addChild(wrapper1);
+		context1.addChild(wrapper2);
 		service1.setServer(server);
 		service1.setEngine(engine1);
 		

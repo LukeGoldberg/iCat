@@ -13,11 +13,7 @@ public class Server extends BaseLifecycle {
 
 	public String address = "localhost";
 	
-	public int port = 8080;
-	
 	private Cat application;
-	
-	private String catBase;
 	
 	private final Object servicesLock = new Object();
 	
@@ -58,18 +54,14 @@ public class Server extends BaseLifecycle {
 	
 	@Override
 	public void stopInternal() {
-		
 		// Stop our defined Services
         for (Service service : services) {
             service.stop();
         }
-		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public List<Service> getServices() {
@@ -78,12 +70,6 @@ public class Server extends BaseLifecycle {
 	
 	public void addService(Service service) {
 		services.add(service);
-	}
-	
-	@Override
-	public String toString() {
-		return "address is : " + address
-				+ "\r\nservices are : " + services;
 	}
 	
 }

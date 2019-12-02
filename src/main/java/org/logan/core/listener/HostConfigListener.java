@@ -1,6 +1,5 @@
 package org.logan.core.listener;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 import org.logan.core.container.Host;
@@ -23,9 +22,9 @@ logger.info("event : " + event);
 			return;
 		}
 		host = (Host) event.data;
-//		if (event.state != null && event.state == LifecycleState.STARTED) {
+		if (event.state != null && event.state == LifecycleState.STARTED) {
 			deployApps();
-//		}
+		}
 	}
 	
 	/**
@@ -34,14 +33,11 @@ logger.info("event : " + event);
      */
     private void deployApps() {
         logger.info("deploying apps");    
-        // Deploy WARs
         deployWARs("");
     }
     
     private void deployWARs(String appAbsolutePath) {
     	// TODO read web.xml, build a Context, and add it to host as a child.
     }
-    
-    
 
 }

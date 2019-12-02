@@ -26,10 +26,4 @@ public interface Container extends Lifecycle {
 	
 	void parseRequest(String uri, HttpRequest request, ResponseInfo response);
 
-//	void addContainerListener(ContainerListener listener);
-//	
-//	void removeContainerListener(ContainerListener listener);
-//	
-//	void fireContainerEvent(ContainerEvent event);
-	
 }

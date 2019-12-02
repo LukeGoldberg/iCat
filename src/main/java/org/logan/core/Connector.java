@@ -42,8 +42,7 @@ public class Connector extends BaseLifecycle {
 
 	@Override
 	protected void stopInternal() {
-		// TODO Auto-generated method stub
-		
+		protocolHandler.stop();
 	}
 	
 }

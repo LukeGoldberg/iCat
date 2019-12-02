@@ -10,11 +10,6 @@ public final class EngineBuilder {
 	public EngineBuilder() {
 	}
 	
-	public EngineBuilder hostAddress(String hostAddress) {
-		engine.setHostAddress(hostAddress);
-		return this;
-	}
-	
 	public EngineBuilder addHost(Host host) {
 		engine.addChild(host);
 		return this;

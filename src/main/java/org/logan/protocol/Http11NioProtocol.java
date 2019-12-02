@@ -34,4 +34,13 @@ public class Http11NioProtocol {
 		return connector;
 	}
 	
+	public void stop() {
+		try {
+			endpoint.closeServerSocketGracefully();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
 }

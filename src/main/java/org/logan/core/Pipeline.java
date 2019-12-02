@@ -1,7 +1,8 @@
 package org.logan.core;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.logan.core.valve.Valve;
 import org.logan.protocol.ResponseInfo;
@@ -10,7 +11,7 @@ import io.netty.handler.codec.http.HttpRequest;
 
 public class Pipeline {
 	
-	private List<Valve> valves = new CopyOnWriteArrayList<>();
+	private Set<Valve> valves = Collections.synchronizedSet(new HashSet<>());
 	
 	public void addValve(Valve valve) {
 		valves.add(valve);

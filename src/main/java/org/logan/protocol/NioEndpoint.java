@@ -98,9 +98,6 @@ public class NioEndpoint {
 					p.addLast(new CatServerHandler(engine));
 				}
     		});
-    		// Start the server.
-//            ChannelFuture f = b.bind(PORT).sync();
-    		
     		Integer port = PORT;
     		try {
     			port = Integer.parseInt(CatProperties.getProperty("server.port"));    			
@@ -117,9 +114,7 @@ public class NioEndpoint {
 		}
     }
     
-    
     public void closeServerSocketGracefully() throws Exception {
-// just shutdown netty gracefully    
     	bossGroup.shutdownGracefully();
 		workGroup.shutdownGracefully();
     }

@@ -13,7 +13,16 @@ public class ContextValve implements Valve {
 	@Override
 	public void invoke(HttpRequest request, ResponseInfo response) {
 		logger.info("receive uri : " + request.uri());
-//		response.addHeader("", "");
+	}
+	
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return true;
 	}
 	
 }

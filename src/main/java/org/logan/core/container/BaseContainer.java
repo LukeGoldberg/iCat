@@ -1,7 +1,6 @@
 package org.logan.core.container;
 
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -15,10 +14,6 @@ import org.logan.protocol.ResponseInfo;
 import io.netty.handler.codec.http.HttpRequest;
 
 public abstract class BaseContainer implements Container {
-	
-	/*
-	 * 不需要有 Container 的接口，不要为了抽象而抽象，考虑将 Container 接口删除掉。
-	 */
 	
 	protected final List<Container> children = new CopyOnWriteArrayList<>();
 	
@@ -46,7 +41,6 @@ public abstract class BaseContainer implements Container {
 		child.setParent(this);
 		children.add(child);
 		uriChildMap.put(child.getName(), child);
-//		fireContainerEvent(new ContainerEvent(Const.ADD_CHILD_EVENT, child));
 	}
 	
 	@Override
@@ -58,24 +52,6 @@ public abstract class BaseContainer implements Container {
 			child.parseRequest(uri.substring(uri.indexOf("/")+1), request, response);
 		}
 	}
-	
-//	@Override
-//	public void addContainerListener(ContainerListener listener) {
-//		listeners.add(listener);
-//	}
-//	
-//	@Override
-//	public void removeContainerListener(ContainerListener listener) {
-//		listeners.remove(listener);
-//	}
-//	
-//	@Override
-//	public void fireContainerEvent(final ContainerEvent event) {
-//		if (CollectionUtils.isEmpty(listeners)) {
-//			return;
-//		}
-//		listeners.forEach(listener -> listener.fireEvent(event));
-//	}
 	
 	@Override
 	public String getName() {
@@ -111,22 +87,19 @@ public abstract class BaseContainer implements Container {
 	
 	@Override
 	public void addLifecycleListener(LifecycleListener listener) {
-		// TODO Auto-generated method stub
 		lifecycleListeners.add(listener);
 	}
 
 	@Override
 	public void removeLifecycleListener(LifecycleListener listener) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-//		if (state != LifecycleState.NEW) {
-//			throw new IllegalArgumentException("invalidate state before init server");
-//		}
+		if (state != LifecycleState.NEW) {
+			throw new IllegalArgumentException("invalidate state before init server");
+		}
         setStateInternal(LifecycleState.INITIALIZING, null);
         initInternal();
         setStateInternal(LifecycleState.INITIALIZED, null);
@@ -134,9 +107,9 @@ public abstract class BaseContainer implements Container {
 
 	@Override
 	public void start() {
-//		if (state != LifecycleState.INITIALIZED) {
-//			throw new IllegalArgumentException("invalidate state before start server");
-//		}
+		if (state != LifecycleState.INITIALIZED) {
+			throw new IllegalArgumentException("invalidate state before start server");
+		}
 		setStateInternal(LifecycleState.STARTING, this);
 		startInternal();
 		setStateInternal(LifecycleState.STARTED, this);
@@ -144,22 +117,19 @@ public abstract class BaseContainer implements Container {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-//		setStateInternal
+		setStateInternal(LifecycleState.STOPPING, this);
 		stopInternal();
-//		setStateInternal
+		setStateInternal(LifecycleState.STOPPED, this);
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public LifecycleState getState() {
-		
-		return null;
+		return state;
 	}
 	
 	// ---------------------- private method ----------------------

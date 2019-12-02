@@ -11,27 +11,19 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.logan.core.Service;
 
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpRequest;
-
 public class Engine extends BaseContainer {
 	
 	private static final Logger logger = Logger.getLogger("Engine");
-	
-	private String hostAddress = "localhost";
-	
+
 	private Service service;
 	
 	protected ExecutorService startStopExecutor = Executors.newCachedThreadPool();
 
-	public void setHostAddress(String hostAddress) {
-		this.hostAddress = hostAddress;
-	}
-	
 	@Override
 	protected void initInternal() {
 		logger.info("Engine init starting...");
 		for (Container host : getChildren()) {
+System.out.println(1);			
 			host.init();
 		}
 	}
@@ -41,8 +33,7 @@ public class Engine extends BaseContainer {
 		logger.info("Engine starting...");
         List<Future<Void>> results = new ArrayList<>();
         for (Container host : getChildren()) {
-//            results.add(startStopExecutor.submit(new StartChild(context)));
-        	host.start();
+            results.add(startStopExecutor.submit(new StartChild(host)));
         }
         
         StringBuilder sb = new StringBuilder();
@@ -63,14 +54,10 @@ public class Engine extends BaseContainer {
 	
 	@Override
 	public void stopInternal() {
-		
-//		setState(LifecycleState.STOPPING);
-		
         List<Future<Void>> results = new ArrayList<>();
         for (Container child : getChildren()) {
             results.add(startStopExecutor.submit(new StopChild(child)));
         }
-
         boolean fail = false;
         for (Future<Void> result : results) {
             try {
@@ -83,17 +70,13 @@ public class Engine extends BaseContainer {
         if (fail) {
             throw new IllegalArgumentException("containerBase.threadedStopFailed");
         }
-		
 	}
 	
 	public static class StartChild implements Callable<Void> {
-
         private Container child;
-
         public StartChild(Container child) {
             this.child = child;
         }
-
         @Override
         public Void call() {
             child.start();
@@ -102,13 +85,10 @@ public class Engine extends BaseContainer {
     }
 	
 	public static class StopChild implements Callable<Void> {
-
         private Container child;
-
         public StopChild(Container child) {
             this.child = child;
         }
-
         @Override
         public Void call() {
             if (child.getState().isAvailable()) {
@@ -120,7 +100,6 @@ public class Engine extends BaseContainer {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 	

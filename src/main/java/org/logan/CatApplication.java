@@ -53,27 +53,20 @@ public class CatApplication {
 	}
 	
 	private void load() throws Exception {
-		
-		
-		// Call the load() method
         String methodName = "load";
         Object param[] = null;
         Class<?> paramTypes[] = null;
         Method method =
             catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         method.invoke(catalinaDaemon, param);
-		
 	}
 	
 	private void start() throws Exception {
-
 		if (catalinaDaemon == null) {
             init();
         }
-
         Method method = catalinaDaemon.getClass().getMethod("start", (Class [])null);
         method.invoke(catalinaDaemon, (Object [])null);
-		
 	}
 	
 	private void stop() throws Exception {
@@ -82,7 +75,7 @@ public class CatApplication {
 	}
 	
 	private void initClassLoaders() {
-		// after Tomcat 5.5, only common class loader has actual meaning.
+		// after Tomcat-5.5, only common class loader has actual meaning.
 		try {
 			commonLoader = createClassLoader("common", null);
 			if (commonLoader == null) {
@@ -94,7 +87,6 @@ public class CatApplication {
 			logger.severe("Class loader creation throw exception : " + t);
             System.exit(1);
 		}
-		
 		logger.info("comonLoader is : " + commonLoader
 				+ "\r\ncatalinaLoader is : " + catalinaLoader
 				+ "\r\nsharedLoader is : " + sharedLoader);
@@ -133,7 +125,6 @@ public class CatApplication {
             	daemon.stop();
             }
         } catch (Throwable t) {
-            // Unwrap the Exception for clearer error reporting
             if (t instanceof InvocationTargetException &&
                     t.getCause() != null) {
                 t = t.getCause();
@@ -141,7 +132,6 @@ public class CatApplication {
             t.printStackTrace();
             System.exit(1);
         }
-        
     }
     
 }

@@ -1,7 +1,6 @@
 package org.logan.core.container;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
@@ -19,18 +18,14 @@ public class Wrapper extends BaseContainer {
 	
 	private static final Logger logger = Logger.getLogger("Wrapper");
 
-	private AtomicInteger requestCount;
-	
 	/**
      * The (single) possibly uninitialized instance of this servlet.
      */
     protected volatile Servlet instance = null;
     
     protected String servletName;
-	
-//	private Servlet servlet;
-	
-	private List<String> mappings;
+    
+    protected String servletContent;
 	
 	private Stack<Servlet> instancePool = new Stack<>();
 	
@@ -78,50 +73,31 @@ public class Wrapper extends BaseContainer {
 				.loadClass(servletName)
 				.getConstructor()
 				.newInstance();
-		
 		initServlet(servlet);
-		
 		return servlet;
 	}
 	
 	private synchronized void initServlet(Servlet servlet)
             throws ServletException {
-		
 		DefaultServletConfig defaultServletConfig = new DefaultServletConfig();
-		
-		/**
-	     * The facade associated with this wrapper.
-	     */
 	    final StandardWrapperFacade facade = new StandardWrapperFacade(defaultServletConfig);
-		
 		servlet.init(facade);
 		instanceInitialized = true;
 	}
 	
 	public Servlet allocate() throws ServletException {
-		// If we are currently unloading this servlet, throw an exception
         if (unloading) {
             throw new ServletException("standardWrapper.unloading");
         }
-
         boolean newInstance = false;
-
-        // If not SingleThreadedModel, return the same instance every time
         if (!singleThreadModel) {
-            // Load and initialize our instance if necessary
             if (instance == null || !instanceInitialized) {
                 synchronized (this) {
                     if (instance == null) {
                         try {
-
-                            // Note: We don't know if the Servlet implements
-                            // SingleThreadModel until we have loaded it.
                             instance = loadServlet();
                             newInstance = true;
                             if (!singleThreadModel) {
-                                // For non-STM, increment here to prevent a race
-                                // condition with unload. Bug 43683, test case
-                                // #3
                                 countAllocated.incrementAndGet();
                             }
                         } catch (ServletException e) {
@@ -135,29 +111,22 @@ public class Wrapper extends BaseContainer {
                     }
                 }
             }
-
             if (singleThreadModel) {
                 if (newInstance) {
-                    // Have to do this outside of the sync above to prevent a
-                    // possible deadlock
                     synchronized (instancePool) {
                         instancePool.push(instance);
                         nInstances++;
                     }
                 }
             } else {
-                // For new instances, count will have been incremented at the
-                // time of creation
                 if (!newInstance) {
                     countAllocated.incrementAndGet();
                 }
                 return instance;
             }
         }
-
         synchronized (instancePool) {
             while (countAllocated.get() >= nInstances) {
-                // Allocate a new instance if possible, or else wait
                 if (nInstances < maxInstances) {
                     try {
                         instancePool.push(loadServlet());
@@ -192,7 +161,6 @@ public class Wrapper extends BaseContainer {
 	
 	@Override
 	public void stopInternal() {
-		// Shut down our servlet instance (if it has been initialized)
         try {
             unload();
         } catch (ServletException e) {
@@ -202,15 +170,12 @@ public class Wrapper extends BaseContainer {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void parseRequest(String uri, HttpRequest request, ResponseInfo response) {
-		super.parseRequest(uri, request, response);
-//		response.content = servlet.service();
-		response.content = "<html>servlet1</html>";
+		response.content = servletContent;
 	}
 	
     public synchronized void unload() throws ServletException {
@@ -268,12 +233,12 @@ public class Wrapper extends BaseContainer {
 
     }
     
-    public String getServletName() {
-		return servletName;
+    public String getServletContent() {
+		return servletContent;
 	}
 
-	public void setServletName(String servletName) {
-		this.servletName = servletName;
+	public void setServletContent(String servletContent) {
+		this.servletContent = servletContent;
 	}
 	
 }

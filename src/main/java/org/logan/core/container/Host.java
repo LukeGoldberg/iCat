@@ -14,34 +14,18 @@ public class Host extends BaseContainer {
 	
 	private static final Logger logger = Logger.getLogger("Host");
 
-	private String workDir;
-	
-	private String appBase;
-	
 	protected ExecutorService startStopExecutor = Executors.newCachedThreadPool();
 	
 	private volatile boolean init = false;
 	
-	public void setWorkDir(String workDir) {
-		this.workDir = workDir;
-	}
-	
-	public void setAppBase(String appBase) {
-		this.appBase = appBase;
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	protected void initInternal() {
+		if (init) {
+			return;
+		}
 		logger.info("Host init starting...");
 		addLifecycleListener(new HostConfigListener());
 		getPipeline().addValve(new HostValve());
-		logger.info("Host add HostConfigListener");
 		init = true;
 		for (Container context : getChildren()) {
 			context.init();
@@ -50,17 +34,14 @@ public class Host extends BaseContainer {
 
 	@Override
 	protected void startInternal() {
-		
 		if (!init) {
 			init();
 		}
-		
 		// start defined context
 		List<Future<Void>> results = new ArrayList<>();
         for (Container context : getChildren()) {
             results.add(startStopExecutor.submit(new Engine.StartChild(context)));
         }
-        
         StringBuilder sb = new StringBuilder();
         for (Future<Void> result : results) {
             try {
@@ -70,12 +51,15 @@ public class Host extends BaseContainer {
                 sb.append(e.getMessage() + "\r\n");
             }
         }
-		
 	}
 
 	@Override
+	public void pause() {
+		
+	}
+	
+	@Override
 	protected void stopInternal() {
-		// TODO Auto-generated method stub
 		
 	}
 	

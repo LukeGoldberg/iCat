@@ -28,18 +28,6 @@ public class Service extends BaseLifecycle {
 		if (engine != null) {
             engine.init();
         }
-
-//        // Initialize any Executors
-//        for (Executor executor : findExecutors()) {
-//            if (executor instanceof JmxEnabled) {
-//                ((JmxEnabled) executor).setDomain(getDomain());
-//            }
-//            executor.init();
-//        }
-//
-//        // Initialize mapper listener
-//        mapperListener.init();
-
         // Initialize our defined Connectors
         synchronized (connectorsLock) {
             for (Connector connector : connectors) {
@@ -57,22 +45,12 @@ public class Service extends BaseLifecycle {
                 engine.start();
             }
         }
-
-//        synchronized (executors) {
-//            for (Executor executor: executors) {
-//                executor.start();
-//            }
-//        }
-//
-//        mapperListener.start();
-
         // Start our defined Connectors second
         synchronized (connectorsLock) {
             for (Connector connector: connectors) {
                 connector.start();
             }
         }
-		
 	}
 	
 	@Override
@@ -92,45 +70,22 @@ public class Service extends BaseLifecycle {
 				}
             }
         }
-        
-     // Stop our defined Container second
+        // Stop our defined Container second
         if (engine != null) {
             synchronized (engine) {
                 engine.stop();
             }
         }
-
         // Now stop the connectors
         synchronized (connectorsLock) {
             for (Connector connector: connectors) {
-//                if (!LifecycleState.STARTED.equals(connector.getState())) {
-                    // Connectors only need stopping if they are currently
-                    // started. They may have failed to start or may have been
-                    // stopped (e.g. via a JMX call)
-//                    continue;
-//                }
                 connector.stop();
             }
         }
-
-        // If the Server failed to start, the mapperListener won't have been
-        // started
-//        if (mapperListener.getState() != LifecycleState.INITIALIZED) {
-//            mapperListener.stop();
-//        }
-
-//        synchronized (executors) {
-//            for (Executor executor: executors) {
-//                executor.stop();
-//            }
-//        }
-        
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void setServer(Server server) {

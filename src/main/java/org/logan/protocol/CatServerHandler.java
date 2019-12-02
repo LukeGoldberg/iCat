@@ -6,8 +6,6 @@ import static io.netty.handler.codec.http.HttpHeaderValues.CLOSE;
 import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 
-import java.net.URI;
-
 import org.apache.commons.lang3.StringUtils;
 import org.logan.core.container.Engine;
 
@@ -25,8 +23,6 @@ import io.netty.handler.codec.http.HttpUtil;
 
 public class CatServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
-	private static final byte[] CONTENT = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd' };
-
 	private final Engine engine;
 	
 	public CatServerHandler(Engine engine) {
@@ -40,10 +36,8 @@ public class CatServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
-        
     	if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;
-
             boolean keepAlive = HttpUtil.isKeepAlive(req);
             ResponseInfo responseInfo = new ResponseInfo();
             if (engine != null) {
@@ -53,26 +47,16 @@ public class CatServerHandler extends SimpleChannelInboundHandler<HttpObject> {
             	}
             	engine.parseRequest(uri, req, responseInfo);
             }
-            
             if (StringUtils.isBlank(responseInfo.content)) {
             	responseInfo.content = "<html><h1>404 NOT FOUND</h1></html>";
             }
-            
             FullHttpResponse response = new DefaultFullHttpResponse(req.protocolVersion(), OK,
-//                                                                    Unpooled.wrappedBuffer(CONTENT));
-//                                                                    Unpooled.wrappedBuffer((msg.toString() + "\r\n\r\n<html>d</html>").getBytes()));
             		                                                  Unpooled.wrappedBuffer(responseInfo.content.getBytes()));
-            
             HttpHeaders headers = response.headers();
             responseInfo.getHeaders().forEach((k, v) -> {
             	headers.set(k, v);
             });
             headers.setInt(CONTENT_LENGTH, responseInfo.content.length());
-            
-//            response.headers()
-//                    .set(CONTENT_TYPE, TEXT_PLAIN)
-//                    .setInt(CONTENT_LENGTH, response.content().readableBytes());
-
             if (keepAlive) {
                 if (!req.protocolVersion().isKeepAliveDefault()) {
                     response.headers().set(CONNECTION, KEEP_ALIVE);
@@ -81,9 +65,7 @@ public class CatServerHandler extends SimpleChannelInboundHandler<HttpObject> {
                 // Tell the client we're going to close the connection.
                 response.headers().set(CONNECTION, CLOSE);
             }
-
             ChannelFuture f = ctx.write(response);
-
             if (!keepAlive) {
                 f.addListener(ChannelFutureListener.CLOSE);
             }
