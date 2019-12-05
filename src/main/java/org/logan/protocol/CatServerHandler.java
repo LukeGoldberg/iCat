@@ -41,10 +41,8 @@ public class CatServerHandler extends SimpleChannelInboundHandler<HttpObject> {
             boolean keepAlive = HttpUtil.isKeepAlive(req);
             ResponseInfo responseInfo = new ResponseInfo();
             if (engine != null) {
-            	String uri = req.uri();
-            	if (uri.charAt(0) == '/') {
-            		uri = uri.substring(1); 
-            	}
+            	String address = req.headers().get("Host").split(":")[0];
+            	String uri = address + req.uri();
             	engine.parseRequest(uri, req, responseInfo);
             }
             if (StringUtils.isBlank(responseInfo.content)) {

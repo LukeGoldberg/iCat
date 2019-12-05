@@ -47,11 +47,11 @@ public final class ServerConfigurationUtil {
 		// Context
 		ContextBuilder contextBuilder = new ContextBuilder();
 		Context context1 = contextBuilder.build();
-		context1.setName("app");
+		context1.setName("app1");
 		
 		// Host
 		HostBuilder hostBuilder = new HostBuilder();
-		Host host1 = hostBuilder.name("logan")
+		Host host1 = hostBuilder.name("www.logan.org")
 				.addLifecycleListener(new HostConfigListener())
 				.build();
 		
