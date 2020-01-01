@@ -94,7 +94,7 @@ public final class ServerConfigurationUtil {
 		for (Service service : server.getServices()) {
 			Engine engine = service.getEngine();
 			if (StringUtils.isBlank(engine.getName())) {
-				throw new IllegalArgumentException("container muse has a name");
+				throw new IllegalArgumentException("container must has a name");
 			}
 			checkChildren(engine.getChildren());
 		}
@@ -106,7 +106,7 @@ public final class ServerConfigurationUtil {
 		}
 		for (Container c : children) {
 			if (StringUtils.isBlank(c.getName())) {
-				throw new IllegalArgumentException("container muse has a name");
+				throw new IllegalArgumentException("container must has a name");
 			}
 			checkChildren(c.getChildren());
 		}

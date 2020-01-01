@@ -15,7 +15,7 @@ public class Connector extends BaseLifecycle {
 	
 	@Override
 	public void initInternal() {
-		logger.info("Connector init starting...");
+		logger.info("Connector initing...");
 		try {
 			protocolHandler.init();
 		} catch (Exception e) {

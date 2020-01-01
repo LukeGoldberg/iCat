@@ -22,8 +22,7 @@ public class Engine extends BaseContainer {
 	@Override
 	protected void initInternal() {
 		logger.info("Engine init starting...");
-		for (Container host : getChildren()) {
-System.out.println(1);			
+		for (Container host : getChildren()) {			
 			host.init();
 		}
 	}

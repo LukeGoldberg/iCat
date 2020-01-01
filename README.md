@@ -12,11 +12,11 @@ Before you start ICat and visit these two uri, add
 
 > 127.0.0.1 www.logan.org (using Linux, modify /etc/hosts)
 
-Cause something are thought as 'physical work', there're following differences.
+Cause something are thought as 'physical work' by me, there're following differences.
 
 - There's no *XML* and *WAR* parser, one class named ```ServerConfigurationUtil``` will mock a runnable ```Server```;
 - ```servletContent@Wrapper``` instead of ```service@Servlet``` will provide html;
 - ```deployApps@HostConfigListener``` is an empty method.
 
-There're notes when I reading Tomcat-9.0.27 source code writen in Chinese [here](https://www.iteye.com/blog/user/bill-logan).
+There're notes when I reading Tomcat-9.0.27 source code written in Chinese [here](https://www.iteye.com/blog/user/bill-logan).
  

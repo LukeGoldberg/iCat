@@ -24,7 +24,7 @@ public class Service extends BaseLifecycle {
 
 	@Override
 	protected void initInternal() {
-		logger.info("Service init starting...");
+		logger.info("Service initing...");
 		if (engine != null) {
             engine.init();
         }

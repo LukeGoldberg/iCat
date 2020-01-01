@@ -25,7 +25,7 @@ public class Server extends BaseLifecycle {
 	
 	@Override
 	protected void initInternal() {
-		logger.info("Server init starting...");
+		logger.info("Server initing...");
         if (application != null) {
         	logger.info("Ignore ApplicationClassLoader, mount commonLoader on SystemClassLoader");
         	ClassLoader cl = application.getParentClassLoader();
