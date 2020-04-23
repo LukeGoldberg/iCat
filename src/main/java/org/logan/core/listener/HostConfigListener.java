@@ -1,20 +1,19 @@
 package org.logan.core.listener;
 
-import java.util.logging.Logger;
-
 import org.logan.core.container.Host;
 import org.logan.core.event.LifecycleEvent;
 import org.logan.core.lifecycle.LifecycleState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HostConfigListener implements LifecycleListener {
 	
-	private static final Logger logger = Logger.getLogger("HostConfig");
+	private static final Logger logger = LoggerFactory.getLogger("HostConfig");
 
 	private Host host;
 	
 	@Override
 	public void fireEvent(LifecycleEvent event) {
-logger.info("event : " + event);		
 		if (event == null) {
 			return;
 		}

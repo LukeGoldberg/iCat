@@ -52,6 +52,7 @@ import io.netty.handler.logging.LoggingHandler;
 public class NioEndpoint {
 	
 	private static final Logger logger = Logger.getLogger("NioEndpoint");
+	private static final CatProperties catProperties = new CatProperties();
 	
 	private Http11NioProtocol protocolHandler;
 	
@@ -93,14 +94,14 @@ public class NioEndpoint {
 					p.addLast(new HttpServerCodec());
 			        p.addLast(new HttpServerExpectContinueHandler());
 			        Engine engine = protocolHandler.getConnector()
-		                                                      .getService()
-		                                                      .getEngine();
+		                           .getService()
+		                           .getEngine();
 					p.addLast(new CatServerHandler(engine));
 				}
     		});
     		Integer port = PORT;
     		try {
-    			port = Integer.parseInt(CatProperties.getProperty("server.port"));    			
+    			port = Integer.parseInt(catProperties.getProperty("server.port"));    			
     		} catch(NumberFormatException ignore) {
     			
     		}

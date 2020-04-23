@@ -1,31 +1,31 @@
 package org.logan.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CatProperties {
 	
-	private static final Logger logger = Logger.getLogger("CatProperties");
+	private static final Logger logger = LoggerFactory.getLogger("CatProperties");
 	
-	private static final String CAT_HOME = "D:/gitFolder/iCat/src/main/java/org/logan/config/";
-    private static final String PROPERTY_FILE_NAME = "cat.properties";
+    private static final String PROPERTY_FILE_NAME = "/cat.properties";
 	
 	private static Properties properties = null;
 	
-	private static void loadProperties() {
-		File propertyFile = new File(CAT_HOME + PROPERTY_FILE_NAME);
+	private void loadProperties() {
 		properties = new Properties();
 		try {
-			properties.load(new FileInputStream(propertyFile));
+			properties.load(this.getClass().getResourceAsStream(PROPERTY_FILE_NAME));
 		} catch (IOException ignore) {
-			logger.severe("can not find properties file, please check it in CatProperties.java");
+			ignore.printStackTrace();
+			logger.error("can not find properties file, please check it.");
 		}
 	}
 	
-	public static String getProperty(String name) {
+	public String getProperty(String name) {
 		if (properties == null) {
 			loadProperties();
 		}
