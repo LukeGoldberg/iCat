@@ -1,22 +1,18 @@
 # ICat
 
-Recording to Tomcat-9.0.27...
+Recording to Tomcat-9.0.27(current is 9.0.34)...
 
-This is one wheel I made. The name of a Container is the path of the uri, which can route to one ```Wrapper```.
+> This is a servlet container, support api deployment as one embedded way but do not support *WAR* deployment method(as it needs lots of parse work, and my goal is to learn Tomcat...).
+> I obey Tomcat's naming method, main component classes can be found in this repository. And the main procedure is similar with Tomcat(with some processing branch discarded).
+> Custom servlet needed to be add to iCat by hand(like one DispatcherServlet), usage described following.
  
-Recording to ```ServerConfigurationUtil``` and ```CatProperties```, uri *http://www.logan.org:8007/app1/welcome*, *http://www.logan.org:8007/app1/index* represent welcome/index named Wrapper, app1 named Context, and www.logan.org named Host. 
+I use one class named ```ServerConfigurationUtil``` to supply an runnable ```Server```, uri *http://www.logan.org:8007/app1/welcome*, *http://www.logan.org:8007/app1/index* can represent welcome/index named Wrapper, app1 named Context, and www.logan.org named Host. 
 
-Before you start ICat and visit these two uri, add
+Before start iCat(run CatApplication.class) and visit these two uri, add
 
 > 127.0.0.1 www.logan.org (using Windows, modify C:\Windows\System32\drivers\etc\hosts)
 
 > 127.0.0.1 www.logan.org (using Linux, modify /etc/hosts)
 
-Cause something are thought as 'physical work' by me, there're following differences.
-
-- There's no *XML* and *WAR* parser, one class named ```ServerConfigurationUtil``` will mock a runnable ```Server```;
-- ```servletContent@Wrapper``` instead of ```service@Servlet``` will provide html;
-- ```deployApps@HostConfigListener``` is an empty method.
-
-There're notes when I reading Tomcat-9.0.27 source code written in Chinese [here](https://www.cnblogs.com/Logan12138/).
+and there're notes when I reading Tomcat-9.0.27 source code written in Chinese [here](https://www.cnblogs.com/Logan12138/).
  
