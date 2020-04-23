@@ -97,9 +97,6 @@ public abstract class BaseContainer implements Container {
 
 	@Override
 	public void init() {
-		if (state != LifecycleState.NEW) {
-			throw new IllegalArgumentException("invalidate state before init server");
-		}
         setStateInternal(LifecycleState.INITIALIZING, null);
         initInternal();
         setStateInternal(LifecycleState.INITIALIZED, null);
@@ -107,9 +104,6 @@ public abstract class BaseContainer implements Container {
 
 	@Override
 	public void start() {
-		if (state != LifecycleState.INITIALIZED) {
-			throw new IllegalArgumentException("invalidate state before start server");
-		}
 		setStateInternal(LifecycleState.STARTING, this);
 		startInternal();
 		setStateInternal(LifecycleState.STARTED, this);

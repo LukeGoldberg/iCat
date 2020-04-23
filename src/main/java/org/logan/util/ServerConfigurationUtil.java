@@ -44,7 +44,7 @@ public final class ServerConfigurationUtil {
 		wrapperBuilder = new WrapperBuilder();
 		Wrapper wrapper2 = wrapperBuilder.name("index")
 				.initParameter("servletName", "index")
-				.servletContent("<html>index</html>")
+				.servletContent("<html>index<br/><a href='welcome'>go to welcome page.</a></html>")
 				.build();
 		
 		// Context

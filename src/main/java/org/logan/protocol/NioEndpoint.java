@@ -60,7 +60,7 @@ public class NioEndpoint {
 		this.protocolHandler = protocolHandler;
 	}
 	
-	// equals to 8080 @ Tomcat
+	// equals to 8080 # Tomcat
 	private static final int PORT = 8007;
 	
 	EventLoopGroup bossGroup = new NioEventLoopGroup(1);

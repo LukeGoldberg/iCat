@@ -95,7 +95,7 @@ public class Wrapper extends BaseContainer implements ServletConfig {
 	
 	private synchronized void initServlet(Servlet servlet)
             throws ServletException {
-		DefaultServletConfig defaultServletConfig = new DefaultServletConfig();
+		DefaultServletConfig defaultServletConfig = new DefaultServletConfig(this);
 	    final StandardWrapperFacade facade = new StandardWrapperFacade(defaultServletConfig);
 		servlet.init(facade);
 		instanceInitialized = true;
