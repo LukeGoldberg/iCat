@@ -2,15 +2,17 @@ package org.logan.core.container;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.logging.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.logan.core.valve.ContextValve;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Context extends BaseContainer {
 	
-	private static final Logger logger = Logger.getLogger("Context");
+	private static final Logger logger = LoggerFactory.getLogger(Context.class);
 
 	@Override
 	public void initInternal() {
@@ -67,6 +69,10 @@ public class Context extends BaseContainer {
 
 	@Override
 	public void pause() {
+	}
+	
+	public ServletContext getServletContext() {
+        return null;
 	}
 	
 }

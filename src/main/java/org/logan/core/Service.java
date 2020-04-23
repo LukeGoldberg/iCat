@@ -2,14 +2,15 @@ package org.logan.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.logan.core.container.Engine;
 import org.logan.core.lifecycle.BaseLifecycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Service extends BaseLifecycle {
 	
-	private static final Logger logger = Logger.getLogger("Service");
+	private static final Logger logger = LoggerFactory.getLogger(Service.class);
 
 	private Server server;
 	

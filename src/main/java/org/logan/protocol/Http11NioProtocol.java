@@ -1,12 +1,12 @@
 package org.logan.protocol;
 
-import java.util.logging.Logger;
-
 import org.logan.core.Connector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Http11NioProtocol {
 
-	private static final Logger logger = Logger.getLogger("Http11NioProtocol");
+	private static final Logger logger = LoggerFactory.getLogger(Http11NioProtocol.class);
 	
 	private final Connector connector;
 	

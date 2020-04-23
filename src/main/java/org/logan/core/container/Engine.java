@@ -6,14 +6,15 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.logan.core.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Engine extends BaseContainer {
 	
-	private static final Logger logger = Logger.getLogger("Engine");
+	private static final Logger logger = LoggerFactory.getLogger(Engine.class);
 
 	private Service service;
 	
@@ -40,7 +41,7 @@ public class Engine extends BaseContainer {
             try {
                 result.get();
             } catch (Throwable e) {
-                logger.severe("containerBase.threadedStartFailed : " + e);
+                logger.error("containerBase.threadedStartFailed : " + e);
                 sb.append(e.getMessage() + "\r\n");
             }
         }
@@ -62,7 +63,7 @@ public class Engine extends BaseContainer {
             try {
                 result.get();
             } catch (Exception e) {
-                logger.severe("containerBase.threadedStopFailed" + e);
+                logger.error("containerBase.threadedStopFailed" + e);
                 fail = true;
             }
         }

@@ -21,7 +21,7 @@ public abstract class BaseContainer implements Container {
 	
 	private String name;
 	
-	private Container parent;
+	protected Container parent;
 	
 	private Pipeline pipeline = new Pipeline();
 	

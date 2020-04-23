@@ -1,22 +1,29 @@
 package org.logan.core.container;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.logan.core.servlet.DefaultServletConfig;
 import org.logan.core.servlet.StandardWrapperFacade;
 import org.logan.protocol.ResponseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.netty.handler.codec.http.HttpRequest;
 
-public class Wrapper extends BaseContainer {
+public class Wrapper extends BaseContainer implements ServletConfig {
 	
-	private static final Logger logger = Logger.getLogger("Wrapper");
+	private static final Logger logger = LoggerFactory.getLogger(Wrapper.class);
 
 	/**
      * The (single) possibly uninitialized instance of this servlet.
@@ -26,6 +33,15 @@ public class Wrapper extends BaseContainer {
     protected String servletName;
     
     protected String servletContent;
+    
+    /**
+     * The initialization parameters for this servlet, keyed by
+     * parameter name.
+     */
+    protected HashMap<String, String> parameters = new HashMap<>();
+    
+    private final ReentrantReadWriteLock parametersLock =
+            new ReentrantReadWriteLock();
 	
 	private Stack<Servlet> instancePool = new Stack<>();
 	
@@ -239,6 +255,56 @@ public class Wrapper extends BaseContainer {
 
 	public void setServletContent(String servletContent) {
 		this.servletContent = servletContent;
+	}
+	
+	/**
+     * Add a new servlet initialization parameter for this servlet.
+     *
+     * @param name Name of this initialization parameter to add
+     * @param value Value of this initialization parameter to add
+     */
+    public void addInitParameter(String name, String value) {
+        parametersLock.writeLock().lock();
+        try {
+            parameters.put(name, value);
+        } finally {
+            parametersLock.writeLock().unlock();
+        }
+    }
+
+	@Override
+	public String getInitParameter(String name) {
+		parametersLock.readLock().lock();
+        try {
+            return parameters.get(name);
+        } finally {
+            parametersLock.readLock().unlock();
+        }
+	}
+
+	@Override
+	public Enumeration<String> getInitParameterNames() {
+		parametersLock.readLock().lock();
+        try {
+            return Collections.enumeration(parameters.keySet());
+        } finally {
+            parametersLock.readLock().unlock();
+        }
+    }
+
+	@Override
+	public ServletContext getServletContext() {
+		if (parent == null)
+            return null;
+        else if (!(parent instanceof Context))
+            return null;
+        else
+            return ((Context) parent).getServletContext();
+	}
+
+	@Override
+	public String getServletName() {
+		return servletName;
 	}
 	
 }

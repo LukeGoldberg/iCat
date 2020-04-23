@@ -1,13 +1,13 @@
 package org.logan.core;
 
-import java.util.logging.Logger;
-
 import org.logan.core.lifecycle.BaseLifecycle;
 import org.logan.protocol.Http11NioProtocol;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Connector extends BaseLifecycle {
 	
-	private static final Logger logger = Logger.getLogger("Connector");
+	private static final Logger logger = LoggerFactory.getLogger(Connector.class);
 
 	protected final Http11NioProtocol protocolHandler = new Http11NioProtocol(this);
 	
@@ -15,7 +15,6 @@ public class Connector extends BaseLifecycle {
 	
 	@Override
 	public void initInternal() {
-		logger.info("Connector initing...");
 		try {
 			protocolHandler.init();
 		} catch (Exception e) {

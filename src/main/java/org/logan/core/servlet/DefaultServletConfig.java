@@ -7,24 +7,31 @@ import javax.servlet.ServletContext;
 
 public class DefaultServletConfig implements ServletConfig {
 
+	private ServletConfig config;
+	
+	public DefaultServletConfig(ServletConfig config) {
+		super();
+		this.config = config;
+	}
+	
 	@Override
 	public String getServletName() {
-		return null;
+		return config.getServletName();
 	}
 
 	@Override
 	public ServletContext getServletContext() {
-		return null;
+		return config.getServletContext();
 	}
 
 	@Override
 	public String getInitParameter(String name) {
-		return null;
+		return config.getInitParameter(name);
 	}
 
 	@Override
 	public Enumeration<String> getInitParameterNames() {
-		return null;
+		return config.getInitParameterNames();
 	}
 
 }

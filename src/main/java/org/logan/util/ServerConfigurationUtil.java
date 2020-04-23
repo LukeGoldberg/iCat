@@ -14,6 +14,7 @@ import org.logan.core.container.Host;
 import org.logan.core.container.Wrapper;
 import org.logan.core.listener.HostConfigListener;
 import org.logan.util.builder.ContextBuilder;
+import org.logan.util.builder.EngineBuilder;
 import org.logan.util.builder.HostBuilder;
 import org.logan.util.builder.ServerBuilder;
 import org.logan.util.builder.ServiceBuilder;
@@ -34,20 +35,21 @@ public final class ServerConfigurationUtil {
 		
 		// Wrapper1
 		WrapperBuilder wrapperBuilder = new WrapperBuilder();
-		Wrapper wrapper1 = wrapperBuilder.build();
-		wrapper1.setName("welcome");
-		wrapper1.setServletContent("<html><h1>welcome</h1></html>");
+		Wrapper wrapper1 = wrapperBuilder.name("welcome")
+				.initParameter("servletName", "welcome")
+				.servletContent("<html><h1>welcome</h1></html>")
+				.build();
 		
 		// Wrapper2
 		wrapperBuilder = new WrapperBuilder();
-		Wrapper wrapper2 = wrapperBuilder.build();
-		wrapper2.setName("index");
-		wrapper2.setServletContent("<html>index</html>");
+		Wrapper wrapper2 = wrapperBuilder.name("index")
+				.initParameter("servletName", "index")
+				.servletContent("<html>index</html>")
+				.build();
 		
 		// Context
 		ContextBuilder contextBuilder = new ContextBuilder();
-		Context context1 = contextBuilder.build();
-		context1.setName("app1");
+		Context context1 = contextBuilder.name("app1").build();
 		
 		// Host
 		HostBuilder hostBuilder = new HostBuilder();
@@ -55,8 +57,8 @@ public final class ServerConfigurationUtil {
 				.addLifecycleListener(new HostConfigListener())
 				.build();
 		
-		Engine engine1 = new Engine();
-		engine1.setName("engine1");
+		EngineBuilder engineBuilder = new EngineBuilder();
+		Engine engine1 = engineBuilder.name("engine1").build();
 		
 		// Service
 		ServiceBuilder serviceBuilder = new ServiceBuilder();

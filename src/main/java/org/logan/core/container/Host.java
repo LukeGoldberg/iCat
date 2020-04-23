@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import org.logan.core.listener.HostConfigListener;
 import org.logan.core.valve.HostValve;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Host extends BaseContainer {
 	
-	private static final Logger logger = Logger.getLogger("Host");
+	private static final Logger logger = LoggerFactory.getLogger(Host.class);
 
 	protected ExecutorService startStopExecutor = Executors.newCachedThreadPool();
 	
@@ -47,7 +48,7 @@ public class Host extends BaseContainer {
             try {
                 result.get();
             } catch (Throwable e) {
-                logger.severe("containerBase.threadedStartFailed" + e);
+                logger.error("containerBase.threadedStartFailed" + e);
                 sb.append(e.getMessage() + "\r\n");
             }
         }

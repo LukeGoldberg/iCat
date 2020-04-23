@@ -15,6 +15,11 @@ public final class EngineBuilder {
 		return this;
 	}
 	
+	public EngineBuilder name(String name) {
+		engine.setName(name);
+		return this;
+	}
+	
 	public Engine build() {
 		return engine;
 	}

@@ -9,6 +9,11 @@ public class ContextBuilder {
 	public ContextBuilder() {
 	}
 	
+	public ContextBuilder name(String name) {
+		context.setName(name);
+		return this;
+	}
+	
 	public Context build() {
 		return context;
 	}

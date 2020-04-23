@@ -9,6 +9,12 @@ import org.logan.protocol.ResponseInfo;
 
 import io.netty.handler.codec.http.HttpRequest;
 
+/**
+ * pipeline, can be used as intercepter .etc.
+ * 
+ * @author logan
+ * @date Apr 23, 2020
+ */
 public class Pipeline {
 	
 	private Set<Valve> valves = Collections.synchronizedSet(new HashSet<>());

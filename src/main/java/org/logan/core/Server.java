@@ -2,14 +2,22 @@ package org.logan.core;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Logger;
 
 import org.logan.Cat;
 import org.logan.core.lifecycle.BaseLifecycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * a server, used to start/stop catalina.
+ * a service is not one Container.
+ * 
+ * @author logan
+ * @date Apr 23, 2020
+ */
 public class Server extends BaseLifecycle {
 	
-	private static final Logger logger = Logger.getLogger("Server");
+	private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
 	public String address = "localhost";
 	
@@ -25,7 +33,6 @@ public class Server extends BaseLifecycle {
 	
 	@Override
 	protected void initInternal() {
-		logger.info("Server initing...");
         if (application != null) {
         	logger.info("Ignore ApplicationClassLoader, mount commonLoader on SystemClassLoader");
         	ClassLoader cl = application.getParentClassLoader();

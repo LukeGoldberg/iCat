@@ -94,6 +94,9 @@ public class CatApplication {
 			logger.error("Class loader creation throw exception : " + t);
             System.exit(1);
 		}
+		// if there is no configuration in Catalina.properties,
+		// commonLoader is sun.misc.AppClassLoder,
+		// else is java.net.URLClassLoader.
 		logger.info("comonLoader is : " + commonLoader
 				+ "\r\ncatalinaLoader is : " + catalinaLoader
 				+ "\r\nsharedLoader is : " + sharedLoader);
