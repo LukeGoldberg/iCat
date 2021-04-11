@@ -53,7 +53,7 @@ public final class ServerConfigurationUtil {
 		
 		// Host
 		HostBuilder hostBuilder = new HostBuilder();
-		Host host1 = hostBuilder.name("www.logan.org")
+		Host host1 = hostBuilder.name("localhost")
 				.addLifecycleListener(new HostConfigListener())
 				.build();
 		
