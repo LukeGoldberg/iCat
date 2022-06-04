@@ -1,10 +1,7 @@
 package org.logan.core.container;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.logan.core.listener.HostConfigListener;
 import org.logan.core.valve.HostValve;
@@ -39,18 +36,8 @@ public class Host extends BaseContainer {
 			init();
 		}
 		// start defined context
-		List<Future<Void>> results = new ArrayList<>();
         for (Container context : getChildren()) {
-            results.add(startStopExecutor.submit(new Engine.StartChild(context)));
-        }
-        StringBuilder sb = new StringBuilder();
-        for (Future<Void> result : results) {
-            try {
-                result.get();
-            } catch (Throwable e) {
-                logger.error("containerBase.threadedStartFailed" + e);
-                sb.append(e.getMessage() + "\r\n");
-            }
+            startStopExecutor.submit(new Engine.StartChild(context));
         }
 	}
 

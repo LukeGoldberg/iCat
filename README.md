@@ -2,7 +2,7 @@
 
 Recording to Tomcat-9.0.27(current is 9.0.34)...
 
-> This is a servlet container, support api deployment as one embedded way but do not support *WAR* deployment method(as it needs lots of parse work, and my goal is to learn Tomcat...).
+> This is a servlet container, support api deployment as one embedded way but do not support *WAR* deployment method(as it needs lots of parse work).
 
 > I obey Tomcat's naming method, main component classes can be found in this repository. And the main procedure is similar with Tomcat(with some processing branch discarded).
 

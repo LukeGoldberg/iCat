@@ -31,24 +31,8 @@ public class Engine extends BaseContainer {
 	@Override
 	protected void startInternal() {
 		logger.info("Engine starting...");
-        List<Future<Void>> results = new ArrayList<>();
         for (Container host : getChildren()) {
-            results.add(startStopExecutor.submit(new StartChild(host)));
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        for (Future<Void> result : results) {
-            try {
-                result.get();
-            } catch (Throwable e) {
-                logger.error("containerBase.threadedStartFailed : " + e);
-                sb.append(e.getMessage() + "\r\n");
-            }
-        }
-        
-        String errorMessage = sb.toString();
-        if (StringUtils.isNotBlank(errorMessage)) {
-        	throw new IllegalArgumentException(errorMessage);
+            startStopExecutor.submit(new StartChild(host));
         }
 	}
 	
@@ -72,15 +56,14 @@ public class Engine extends BaseContainer {
         }
 	}
 	
-	public static class StartChild implements Callable<Void> {
+	public static class StartChild implements Runnable {
         private Container child;
         public StartChild(Container child) {
             this.child = child;
         }
         @Override
-        public Void call() {
+        public void run() {
             child.start();
-            return null;
         }
     }
 	
